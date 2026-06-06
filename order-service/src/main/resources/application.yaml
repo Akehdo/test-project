@@ -4,3 +4,13 @@ server:
 spring:
   application:
     name: order-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/order_db}
+    username: ${SPRING_DATASOURCE_USERNAME:order_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:order_password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,0 +1,28 @@
+services:
+  order-pg:
+    image: postgres:16
+    container_name: order_postgres
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: order_user
+      POSTGRES_PASSWORD: order_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - order_pg_data:/var/lib/postgresql/data
+
+  notification-pg:
+    image: postgres:16
+    container_name: notification_postgres
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: notification_user
+      POSTGRES_PASSWORD: notification_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - notification_pg_data:/var/lib/postgresql/data
+
+volumes:
+  order_pg_data:
+  notification_pg_data:
