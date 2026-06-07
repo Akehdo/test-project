@@ -1,6 +1,6 @@
 package akendo.orderservice.service;
 
-import  akendo.orderservice.domain.Order;
+import akendo.orderservice.domain.Order;
 import akendo.orderservice.exceptions.OrderNotFoundException;
 import akendo.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,6 @@
 package akendo.orderservice.domain;
 
+import akendo.orderservice.exceptions.BadRequestException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,10 +41,10 @@ public class Order {
 
     public static Order create(UUID customerId, BigDecimal totalAmount) {
         if (customerId == null) {
-            throw new IllegalArgumentException("customerId must not be null");
+            throw new BadRequestException("customerId must not be null");
         }
         if (totalAmount == null || totalAmount.signum() <= 0) {
-            throw new IllegalArgumentException("totalAmount must be positive");
+            throw new BadRequestException("totalAmount must be positive");
         }
 
         Order order = new Order();
@@ -58,14 +59,14 @@ public class Order {
 
     public void pay() {
         if (status == OrderStatus.CANCELLED) {
-            throw new IllegalStateException("Cancelled order cannot be paid");
+            throw new BadRequestException("Cancelled order cannot be paid");
         }
         status = OrderStatus.PAID;
     }
 
     public void cancel() {
         if (status == OrderStatus.PAID) {
-            throw new IllegalStateException("Paid order cannot be cancelled");
+            throw new BadRequestException("Paid order cannot be cancelled");
         }
         status = OrderStatus.CANCELLED;
     }
