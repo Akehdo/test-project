@@ -6,7 +6,7 @@ plugins {
 
 group = "akendo"
 version = "0.0.1-SNAPSHOT"
-description = "notificartion-service"
+description = "notification-service"
 
 java {
     toolchain {

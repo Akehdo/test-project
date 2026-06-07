@@ -1,10 +1,10 @@
-package akendo.notificartionservice;
+package akendo.notificationservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotificartionServiceApplicationTests {
+class NotificationServiceApplicationTests {
 
     @Test
     void contextLoads() {
