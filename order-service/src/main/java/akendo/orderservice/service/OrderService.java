@@ -2,6 +2,8 @@ package akendo.orderservice.service;
 
 import akendo.orderservice.domain.Order;
 import akendo.orderservice.exceptions.OrderNotFoundException;
+import akendo.orderservice.messaging.events.OrderCreatedEvent;
+import akendo.orderservice.messaging.producer.OrderProducer;
 import akendo.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,24 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderProducer orderProducer;
 
     @Transactional
     public Order createOrder(UUID customerId, BigDecimal totalAmount) {
         Order order = Order.create(customerId, totalAmount);
-        return orderRepository.save(order);
+
+        Order savedOrder = orderRepository.save(order);
+
+        OrderCreatedEvent event = new OrderCreatedEvent(
+                savedOrder.getId(),
+                savedOrder.getCustomerId(),
+                savedOrder.getTotalAmount(),
+                savedOrder.getStatus().name()
+        );
+
+        orderProducer.sendOrderCreated(event);
+
+        return savedOrder;
     }
 
     @Transactional(readOnly = true)
