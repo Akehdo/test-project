@@ -24,7 +24,7 @@ COPY order-service/build.gradle.kts ./order-service/build.gradle.kts
 
 # Build only notification-service. The leading colon means "run this task for
 # this Gradle module", not for the whole root project.
-RUN ./gradlew :notification-service:bootJar --no-daemon
+RUN ./gradlew :notification-service:bootJar -x test --no-daemon
 
 
 # Stage 2: runtime image.
