@@ -87,8 +87,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://notification-pg:5432/notification_db
       SPRING_DATASOURCE_USERNAME: notification_user
       SPRING_DATASOURCE_PASSWORD: notification_password
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
       - notification-pg
+      - kafka
 
 
 volumes:
