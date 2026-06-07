@@ -60,8 +60,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://order-pg:5432/order_db
       SPRING_DATASOURCE_USERNAME: order_user
       SPRING_DATASOURCE_PASSWORD: order_password
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
       - order-pg
+      - kafka
 
   notification-pg:
     image: postgres:16
