@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-public record OrderCreatedEvent(
+public record OrderPaidEvent(
         UUID orderId,
         UUID customerId,
         BigDecimal totalAmount,
         String status,
-        Instant createdAt
+        Instant paidAt
 ) {
 }

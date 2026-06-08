@@ -1,6 +1,5 @@
 package akendo.orderservice.config;
 
-import akendo.orderservice.messaging.events.OrderCreatedEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ public class KafkaProducerConfig {
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, OrderCreatedEvent> orderCreatedEventProducerFactory() {
+    public ProducerFactory<String, Object> orderEventProducerFactory() {
         Map<String,Object> configProps = new HashMap<>();
 
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -32,7 +31,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, OrderCreatedEvent> orderCreatedEventKafkaTemplate() {
-        return new KafkaTemplate<>(orderCreatedEventProducerFactory());
+    public KafkaTemplate<String, Object> orderEventKafkaTemplate() {
+        return new KafkaTemplate<>(orderEventProducerFactory());
     }
 }
