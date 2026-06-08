@@ -11,6 +11,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -19,7 +21,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "orders")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
@@ -36,8 +37,17 @@ public class Order {
     @Column(nullable = false, length = 30)
     private OrderStatus status;
 
-    @Column(nullable = false)
+    private Instant paidAt;
+
+    private Instant cancelledAt;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private Instant updatedAt;
 
     public static Order create(UUID customerId, BigDecimal totalAmount) {
         if (customerId == null) {
@@ -52,7 +62,6 @@ public class Order {
         order.customerId = customerId;
         order.totalAmount = totalAmount;
         order.status = OrderStatus.CREATED;
-        order.createdAt = Instant.now();
 
         return order;
     }
@@ -61,13 +70,25 @@ public class Order {
         if (status == OrderStatus.CANCELLED) {
             throw new BadRequestException("Cancelled order cannot be paid");
         }
+
+        if (status == OrderStatus.PAID) {
+            throw new BadRequestException("Order is already paid");
+        }
+
         status = OrderStatus.PAID;
+        paidAt = Instant.now();
     }
 
     public void cancel() {
         if (status == OrderStatus.PAID) {
             throw new BadRequestException("Paid order cannot be cancelled");
         }
+
+        if (status == OrderStatus.CANCELLED) {
+            throw new BadRequestException("Order is already cancelled");
+        }
+
         status = OrderStatus.CANCELLED;
+        cancelledAt = Instant.now();
     }
 }
