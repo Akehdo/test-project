@@ -9,7 +9,7 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaTopicConfig {
     public static final String ORDER_CREATED_TOPIC = "order-created";
     public static final String ORDER_PAID_TOPIC = "order-paid";
-    public static final String ORDER_CANCELED_TOPIC = "order-canceled";
+    public static final String ORDER_CANCELED_TOPIC = "order-cancelled";
 
     @Bean
     public NewTopic orderCreatedTopic() {
