@@ -19,4 +19,4 @@ spring:
     consumer:
       group-id: notification-service
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.StringDeserializer

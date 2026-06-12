@@ -1,8 +1,8 @@
 package akendo.notificationservice.messaging.consumer;
 
+import akendo.notificationservice.messaging.events.OrderCancelledEvent;
 import akendo.notificationservice.messaging.events.OrderCreatedEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import akendo.notificationservice.messaging.events.OrderPaidEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +10,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(OrderConsumer.class);
+   @KafkaListener(
+            topics = "order-created",
+            containerFactory = "orderCreatedKafkaListenerContainerFactory"
+    )
+    public void consumeOrderCreated(OrderCreatedEvent event) {
+        System.out.println("Order created: " + event);
+    }
 
     @KafkaListener(
-            topics = "order-created",
-            containerFactory = "orderCreatedEventKafkaListenerContainerFactory"
+            topics = "order-paid",
+            containerFactory = "orderPaidKafkaListenerContainerFactory"
     )
-    public void consumeOrder(OrderCreatedEvent event){
-        log.info("Received order: order={}", event.orderId());
+    public void consumeOrderPaid(OrderPaidEvent event) {
+        System.out.println("Order paid: " + event);
+    }
+
+    @KafkaListener(
+            topics = "order-cancelled",
+            containerFactory = "orderCancelledKafkaListenerContainerFactory"
+    )
+    public void consumeOrderCancelled(OrderCancelledEvent event) {
+        System.out.println("Order cancelled: " + event);
     }
 }
