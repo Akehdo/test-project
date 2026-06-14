@@ -1,8 +1,10 @@
 package akendo.orderservice.controller;
 
 import akendo.orderservice.controller.dtos.CreateOrderRequest;
+import akendo.orderservice.controller.dtos.CreateOrderResponse;
 import akendo.orderservice.domain.Order;
 import akendo.orderservice.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +27,12 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody CreateOrderRequest request) {
+    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
         Order order = orderService.createOrder(request.customerId(), request.totalAmount());
+
         return ResponseEntity
                 .created(URI.create("/orders/" + order.getId()))
-                .body(order);
+                .body(CreateOrderResponse.from(order));
     }
 
     @GetMapping
