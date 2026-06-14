@@ -9,6 +9,10 @@ import akendo.orderservice.messaging.events.OrderPaidEvent;
 import akendo.orderservice.repository.OrderOutboxEventRepository;
 import akendo.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.ObjectMapper;
@@ -79,8 +83,14 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<Order> getOrders() {
-        return orderRepository.findAll();
+    public Page<Order> getOrders(int page, int size) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        return orderRepository.findAll(pageable);
     }
 
     @Transactional

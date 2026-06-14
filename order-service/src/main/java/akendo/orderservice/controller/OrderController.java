@@ -1,22 +1,17 @@
 package akendo.orderservice.controller;
 
 import akendo.orderservice.controller.dtos.CreateOrderRequest;
-import akendo.orderservice.controller.dtos.CreateOrderResponse;
+import akendo.orderservice.controller.dtos.OrderResponse;
+import akendo.orderservice.controller.dtos.PaginatedOrdersResponse;
 import akendo.orderservice.domain.Order;
 import akendo.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,33 +22,43 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
         Order order = orderService.createOrder(request.customerId(), request.totalAmount());
 
         return ResponseEntity
                 .created(URI.create("/orders/" + order.getId()))
-                .body(CreateOrderResponse.from(order));
+                .body(OrderResponse.from(order));
     }
 
     @GetMapping
-    public List<Order> getOrders() {
-        return orderService.getOrders();
+    public PaginatedOrdersResponse getOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+         Page<Order> orders = orderService.getOrders(page,size);
+
+         return PaginatedOrdersResponse.from(orders);
     }
 
     @GetMapping("/{orderId}")
-    public Order getOrder(@PathVariable UUID orderId) {
-        return orderService.getOrder(orderId);
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable UUID orderId) {
+         Order order = orderService.getOrder(orderId);
+
+         return ResponseEntity.ok(OrderResponse.from(order));
     }
 
     @PatchMapping("/{orderId}/pay")
-    public Order payOrder(@PathVariable UUID orderId) {
-        return orderService.payOrder(orderId);
+    public ResponseEntity<OrderResponse> payOrder(@PathVariable UUID orderId) {
+        Order order = orderService.payOrder(orderId);
+
+        return ResponseEntity.ok(OrderResponse.from(order));
     }
 
     @PatchMapping("/{orderId}/cancel")
-    public Order cancelOrder(@PathVariable UUID orderId) {
-        return orderService.cancelOrder(orderId);
-    }
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable UUID orderId) {
+        Order order = orderService.cancelOrder(orderId);
 
+        return ResponseEntity.ok(OrderResponse.from(order));
+    }
 
 }
