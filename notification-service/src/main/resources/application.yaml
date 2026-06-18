@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: notificartion-service
+    name: notification-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/notification_db}
     username: ${SPRING_DATASOURCE_USERNAME:notification_user}
