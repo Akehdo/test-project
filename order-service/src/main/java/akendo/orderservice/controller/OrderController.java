@@ -6,9 +6,12 @@ import akendo.orderservice.controller.dtos.PaginatedOrdersResponse;
 import akendo.orderservice.domain.Order;
 import akendo.orderservice.service.OrderService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -17,6 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
+@Validated
 public class OrderController {
 
     private final OrderService orderService;
@@ -32,8 +36,10 @@ public class OrderController {
 
     @GetMapping
     public PaginatedOrdersResponse getOrders(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "0") @Min(value = 0, message = "page must not be negative") int page,
+            @RequestParam(defaultValue = "20")
+            @Min(value = 1, message = "size must be at least 1")
+            @Max(value = 100, message = "size must not exceed 100") int size
     ) {
          Page<Order> orders = orderService.getOrders(page,size);
 

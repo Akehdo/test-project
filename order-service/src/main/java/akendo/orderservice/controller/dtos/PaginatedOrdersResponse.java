@@ -9,7 +9,7 @@ public record PaginatedOrdersResponse(
         List<OrderResponse> orders,
         int currentPage,
         int totalPages,
-        int totalItems,
+        long totalItems,
         int pageSize,
         boolean hasNext,
         boolean hasPrevious
@@ -22,7 +22,7 @@ public record PaginatedOrdersResponse(
                         .toList(),
                 page.getNumber(),
                 page.getTotalPages(),
-                page.getNumberOfElements(),
+                page.getTotalElements(),
                 page.getSize(),
                 page.hasNext(),
                 page.hasPrevious()
