@@ -21,8 +21,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "customer_id",nullable = false)
-    private UUID customerId;
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
 
     @Column(name = "total_amount",nullable = false, precision = 19, scale = 2)
     private BigDecimal totalAmount;
@@ -47,16 +47,16 @@ public class Order {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    public static Order create(UUID customerId, BigDecimal totalAmount) {
-        if (customerId == null) {
-            throw new BadRequestException("customerId must not be null");
+    public static Order create(UUID userId, BigDecimal totalAmount) {
+        if (userId == null) {
+            throw new BadRequestException("userId must not be null");
         }
         if (totalAmount == null || totalAmount.signum() <= 0) {
             throw new BadRequestException("totalAmount must be positive");
         }
 
         Order order = new Order();
-        order.customerId = customerId;
+        order.userId = userId;
         order.totalAmount = totalAmount;
         order.status = OrderStatus.CREATED;
         order.createdAt = Instant.now();
