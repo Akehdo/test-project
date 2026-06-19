@@ -21,6 +21,7 @@ COPY notification-service ./notification-service
 # build context. We copy only its `build.gradle.kts`, not its source, because
 # this image does not build order-service.
 COPY order-service/build.gradle.kts ./order-service/build.gradle.kts
+COPY user-service/build.gradle.kts ./user-service/build.gradle.kts
 
 # Build only notification-service. The leading colon means "run this task for
 # this Gradle module", not for the whole root project.
