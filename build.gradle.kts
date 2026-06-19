@@ -15,11 +15,7 @@ allprojects {
 
 subprojects {
     apply(plugin = "java")
-    apply(plugin = "io.spring.dependency-management")
 
-    dependencies {
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-    }
 
     tasks.withType<Test> {
         useJUnitPlatform()
