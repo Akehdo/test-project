@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public record CreateOrderRequest(
         @NotNull
-        UUID customerId,
+        UUID userId,
 
         @NotNull
         @DecimalMin(value = "0.01")

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public record OrderResponse(
         UUID id,
-        UUID customerId,
+        UUID userId,
         BigDecimal totalAmount,
         String status,
         Instant createdAt
@@ -16,7 +16,7 @@ public record OrderResponse(
     public static OrderResponse from(Order order) {
         return new OrderResponse(
                 order.getId(),
-                order.getCustomerId(),
+                order.getUserId(),
                 order.getTotalAmount(),
                 order.getStatus().name(),
                 order.getCreatedAt()
