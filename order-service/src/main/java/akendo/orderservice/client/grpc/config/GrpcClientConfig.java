@@ -12,7 +12,7 @@ public class GrpcClientConfig {
     @Bean(destroyMethod = "shutdown")
     public ManagedChannel userServiceChannel() {
         return ManagedChannelBuilder
-                .forAddress("localhost", 9091)
+                .forAddress("localhost", 9090)
                 .usePlaintext()
                 .build();
     }
