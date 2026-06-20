@@ -1,6 +1,6 @@
 # Stage 1: build the Spring Boot jar.
 # We use a JDK image here because Gradle needs a compiler to build the project.
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM eclipse-temurin:21-jdk AS build
 
 WORKDIR /app
 
@@ -22,6 +22,8 @@ COPY order-service ./order-service
 # this image does not build notification-service.
 COPY notification-service/build.gradle.kts ./notification-service/build.gradle.kts
 COPY user-service/build.gradle.kts ./user-service/build.gradle.kts
+COPY proto-contract/build.gradle.kts ./proto-contract/build.gradle.kts
+COPY proto-contract/src ./proto-contract/src
 
 # Build only order-service. The leading colon means "run this task for this
 # Gradle module", not for the whole root project.

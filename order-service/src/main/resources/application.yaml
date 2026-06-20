@@ -14,16 +14,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  grpc:
-    user-service:
-      host: localhost
-      port: 9090
-    client:
-      channels:
-        user-service:
-          address: localhost:9090
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+
+grpc:
+  user-service:
+    host: ${USER_SERVICE_GRPC_HOST:localhost}
+    port: ${USER_SERVICE_GRPC_PORT:9090}

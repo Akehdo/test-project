@@ -3,6 +3,7 @@ package akendo.orderservice.client.grpc.config;
 import akendo.grpc.user.UserServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +11,12 @@ import org.springframework.context.annotation.Configuration;
 public class GrpcClientConfig {
 
     @Bean(destroyMethod = "shutdown")
-    public ManagedChannel userServiceChannel() {
+    public ManagedChannel userServiceChannel(
+            @Value("${grpc.user-service.host:localhost}") String host,
+            @Value("${grpc.user-service.port:9090}") int port
+    ) {
         return ManagedChannelBuilder
-                .forAddress("localhost", 9090)
+                .forAddress(host, port)
                 .usePlaintext()
                 .build();
     }
