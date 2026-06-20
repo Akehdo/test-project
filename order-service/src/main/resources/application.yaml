@@ -14,6 +14,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  grpc:
+    user-service:
+      host: localhost
+      port: 9090
+    client:
+      channels:
+        user-service:
+          address: localhost:9090
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:

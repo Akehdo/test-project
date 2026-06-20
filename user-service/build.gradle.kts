@@ -15,6 +15,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation(project(":proto-contract"))
+    implementation(platform(
+        "org.springframework.grpc:spring-grpc-dependencies:1.0.3"
+    ))
+    implementation("org.springframework.grpc:spring-grpc-server-spring-boot-starter")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

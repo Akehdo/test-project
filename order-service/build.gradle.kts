@@ -17,6 +17,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation(project(":proto-contract"))
+    implementation(platform(
+        "org.springframework.grpc:spring-grpc-dependencies:1.0.3"
+    ))
+    implementation("org.springframework.grpc:spring-grpc-client-spring-boot-starter")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
