@@ -1,8 +1,10 @@
 package akendo.orderservice.service;
 
+import akendo.orderservice.client.grpc.UserGrpcClient;
 import akendo.orderservice.domain.Order;
 import akendo.orderservice.domain.OrderOutboxEvent;
 import akendo.orderservice.exceptions.OrderNotFoundException;
+import akendo.orderservice.exceptions.UserNotFoundException;
 import akendo.orderservice.messaging.events.OrderCancelledEvent;
 import akendo.orderservice.messaging.events.OrderCreatedEvent;
 import akendo.orderservice.messaging.events.OrderPaidEvent;
@@ -32,6 +34,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderOutboxEventRepository orderOutboxEventRepository;
+    private final UserGrpcClient userGrpcClient;
     private final ObjectMapper objectMapper;
 
     private Order findOrderByID(UUID orderId) {
@@ -55,8 +58,13 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(UUID customerId, BigDecimal totalAmount) {
-        Order order = Order.create(customerId, totalAmount);
+    public Order createOrder(UUID userId, BigDecimal totalAmount) {
+        Order order = Order.create(userId, totalAmount);
+
+        boolean userExists = userGrpcClient.checkUserExists(userId.toString());
+        if (!userExists) {
+            throw new UserNotFoundException(userId);
+        }
 
         orderRepository.save(order);
 
