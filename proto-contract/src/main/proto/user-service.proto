@@ -1,0 +1,17 @@
+syntax = "proto3";
+package akendo.grpc.user;
+
+option java_multiple_files = true;
+option java_package = "akendo.grpc.user";
+
+service UserService {
+  rpc CheckUserExists(CheckUserRequest) returns (CheckUserResponse);
+}
+
+message CheckUserRequest {
+  string user_id = 1;
+}
+
+message CheckUserResponse {
+  bool exists = 1;
+}
