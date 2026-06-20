@@ -3,6 +3,7 @@ package akendo.orderservice.controller;
 import akendo.orderservice.controller.dtos.ErrorResponse;
 import akendo.orderservice.exceptions.BadRequestException;
 import akendo.orderservice.exceptions.OrderNotFoundException;
+import akendo.orderservice.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,18 @@ public class ApiExceptionHandler {
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleOrderNotFound(
             OrderNotFoundException exception,
+            HttpServletRequest request
+    ) {
+        return buildErrorResponse(
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND,
+                request
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException exception,
             HttpServletRequest request
     ) {
         return buildErrorResponse(
