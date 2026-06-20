@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record OrderCancelledEvent(
         UUID orderId,
-        UUID customerId,
+        UUID userId,
         BigDecimal totalAmount,
         String status,
         Instant cancelledAt

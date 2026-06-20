@@ -62,7 +62,7 @@ public class OrderService {
 
         OrderCreatedEvent event = new OrderCreatedEvent(
                 order.getId(),
-                order.getCustomerId(),
+                order.getUserId(),
                 order.getTotalAmount(),
                 order.getStatus().name(),
                 order.getCreatedAt()
@@ -100,7 +100,7 @@ public class OrderService {
 
         OrderPaidEvent event = new OrderPaidEvent(
                 order.getId(),
-                order.getCustomerId(),
+                order.getUserId(),
                 order.getTotalAmount(),
                 order.getStatus().name(),
                 order.getPaidAt()
@@ -123,7 +123,7 @@ public class OrderService {
 
         OrderCancelledEvent event = new OrderCancelledEvent(
                 order.getId(),
-                order.getCustomerId(),
+                order.getUserId(),
                 order.getTotalAmount(),
                 order.getStatus().name(),
                 order.getCancelledAt()
